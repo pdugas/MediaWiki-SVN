@@ -5,7 +5,6 @@
 # @file     Subversion.i18n.php
 # @brief    Internationalization for the extension
 # @author   Paul Dugas <paul@dugasenterprises.com>
-# @version  $Id: $
 # =============================================================================
  
 if (!defined('MEDIAWIKI')) {
@@ -21,8 +20,4 @@ $magicWords['en'] = array(
 );
 
 # =============================================================================
-# $LastChangedDate: $
-# $LastChangedBy: $
-# $URL: $
-# $Revision: $
 # vim: set et sw=4 ts=4 :
