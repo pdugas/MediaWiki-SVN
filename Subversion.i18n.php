@@ -13,6 +13,20 @@ if (!defined('MEDIAWIKI')) {
     die(-1);
 }
 
+$messages = array();
+
+$messages['en'] = array(
+        'subversion'      => 'Subversion',
+        'subversion-desc' => 'Subversion Integration',
+);
+
+$messages['qqq'] = array(
+        'subversion' => '{{doc-special|Subversion}}
+Subversion is an extension that integrates with Subversion.',
+        'subversion-desc' => '{{desc}}',
+);
+
+
 $magicWords = array();
 
 $magicWords['en'] = array(
