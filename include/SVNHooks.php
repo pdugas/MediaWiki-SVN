@@ -112,7 +112,8 @@ class SVNHooks
       $parent = $url; $parent['path'] = dirname($url['path']);
       $parent = self::unparse_url($parent);
       $ls = svn_ls($parent); 
-      return (array_key_exists($file, $ls) ? $ls[$file] : NULL);
+      return (is_array($ls) && array_key_exists($file, $ls) 
+              ? $ls[$file] : NULL);
     }
 
   public static function unparse_url($parsed_url)

@@ -8,8 +8,10 @@ a `<svn/>` tag used to insert links to files in a Subversion repository.
 
 ### INSTALLATION
 
-No configuration other than including the extension is required.  Add a line
-like the one below to the bottom of your `LocalSettings.php` file.
+PHP's Subversion extension is needed for this extension.  See http://php.net/manual/en/book.svn.php for details.
+
+No MediaWiki configuration other than including the extension is required.  Add
+a line like the one below to the bottom of your `LocalSettings.php` file.
 
 > require_once("$IP/extensions/MediaWiki-SVN/SVN.php");
 
@@ -43,6 +45,7 @@ The links in the `Path` column lead to File Browser pages provided by this exten
 ### TODO LIST
 * Add . and .. to the directory listing.
 * Only publicly accessible repositories accessed via HTTP/HTTPS are currently supported.  Not sure if we want to change that due to potential security risks.
+* An error is thrown in the PHP/Apache log when generating a directory listing where the parent directory is the top of the repository.  Want to see if we can head that off some how.
 
 ### AUTHORS
 * Paul Dugas <paul@dugas.cc>
