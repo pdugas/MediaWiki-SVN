@@ -17,11 +17,17 @@ like the one below to the bottom of your `LocalSettings.php` file.
 
 #### Directory Listing
 
-Use the `<svn>URL</svn>` tag to insert a tabular list of directory entries in/under a given Subversion URL.  
-> &lt;svn&gt;https://github.com/pdugas/MediaWiki-SVN/trunk&lt;/svn&gt;
+Use the `<svn>URL</svn>` tag or `{{#svn:URL}}` parser function to insert a tabular 
+list of directory entries in/under a given Subversion URL.  
+
+    <svn>https://github.com/pdugas/MediaWiki-SVN/trunk</svn>
+
 or
-> {{#svn:https://github.com/pdugas/MediaWiki-SVN/trunk}}
+
+    {{#svn:https://github.com/pdugas/MediaWiki-SVN/trunk}}
+
 yield a table like this
+
 ![Screenshot showing directory listing](screenshot_01.png)
 
 The links in the `Path` column lead to File Browser pages provided by this extension.  See below.
