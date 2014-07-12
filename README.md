@@ -5,6 +5,13 @@ MediaWiki Extension for Subversion Integration
 
 MediaWiki-SVN currently a work-in-progress MediaWiki extension that adds
 a `<svn/>` tag used to insert links to files in a Subversion repository.
+Links in the directly listing allow browsing of the Subversion repository
+and even downloading of files.
+
+I built this extension to use MediaWiki as part of a simple document 
+management system.  Basic browsing and file-download functionality is what
+I'm going for.  I'm not trying to make a full-featured Subversion
+repository browser.
 
 ### INSTALLATION
 
@@ -36,11 +43,11 @@ The links in the `Path` column lead to File Browser pages provided by this exten
 
 #### File Info
 
-...
+--- not implemented yet ...
 
 #### File Browser
 
-...
+The extension adds an `SVN` namespace that can be used to browse a Subversion repository.  Article links like `[[SVN:URL]]` present results for the given Subversion URL.  If the URL leads to a directory, the link produces a dynamically generated article containing a directory listing.  If the URL leads to a file, the file is downloaded.
 
 ### TODO LIST
 * Add . and .. to the directory listing.
