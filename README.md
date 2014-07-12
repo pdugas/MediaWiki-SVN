@@ -1,9 +1,9 @@
-MediaWiki-Subversion
-====================
+MediaWiki-SVN
+=============
 
 MediaWiki Extension for Subversion Integration
 
-MediaWiki-Subversion currently a work-in-progress MediaWiki extension that adds
+MediaWiki-SVN currently a work-in-progress MediaWiki extension that adds
 a `<svn/>` tag used to insert links to files in a Subversion repository.
 
 ### INSTALLATION
@@ -11,7 +11,7 @@ a `<svn/>` tag used to insert links to files in a Subversion repository.
 No configuration other than including the extension is required.  Add a line
 like the one below to the bottom of your `LocalSettings.php` file.
 
-> require_once("$IP/extensions/MediaWiki-Subversion/Subversion.php");
+> require_once("$IP/extensions/MediaWiki-SVN/SVN.php");
 
 ### TODO LIST
 * ...
