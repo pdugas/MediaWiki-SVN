@@ -28,7 +28,7 @@ or
 
 yield a table like this
 
-![Screenshot showing directory listing](screenshot_01.png)
+![Screenshot showing directory listing](resources/screenshot_01.png)
 
 The links in the `Path` column lead to File Browser pages provided by this extension.  See below.
 
