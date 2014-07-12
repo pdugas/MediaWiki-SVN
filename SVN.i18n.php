@@ -1,8 +1,8 @@
 <?php
 # =============================================================================
-# Subversion - MediaWiki Extension for Integration with Subversion
+# MediaWiki-SVN - MediaWiki Extension for Integration with Subversion
 # =============================================================================
-# @file     Subversion.i18n.php
+# @file     SVN.i18n.php
 # @brief    Internationalization for the extension
 # @author   Paul Dugas <paul@dugasenterprises.com>
 # =============================================================================
@@ -16,14 +16,14 @@ if (!defined('MEDIAWIKI')) {
 $messages = array();
 
 $messages['en'] = array(
-        'subversion'      => 'Subversion',
-        'subversion-desc' => 'Subversion Integration',
+        'svn'      => 'SVN',
+        'svn-desc' => 'Subversion Integration',
 );
 
 $messages['qqq'] = array(
-        'subversion' => '{{doc-special|Subversion}}
-Subversion is an extension that integrates with Subversion.',
-        'subversion-desc' => '{{desc}}',
+        'svn' => '{{doc-special|SVN}}
+MediaWiki-SVN is an extension that integrates with Subversion.',
+        'svn-desc' => '{{desc}}',
 );
 
 

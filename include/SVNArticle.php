@@ -3,12 +3,12 @@
 # SVN - MediaWiki Extension for Subversion Integration
 # Copyright (C) 2014 Dugas Enterprises, LLC.
 # =============================================================================
-# @file     includes/SVNPage.php
-# @brief    Article/Page class for the SVN extension
+# @file     includes/SVNArticle.php
+# @brief    Article class for the SVN extension
 # @author   Paul Dugas <paul@dugasenterprises.com>
 # =============================================================================
 
-class SVNPage extends Article
+class SVNArticle extends Article
 {
   function __construct($title) 
     { parent::__construct($title); }
@@ -64,7 +64,7 @@ class SVNPage extends Article
       return "$scheme$user$pass$host$port$path$query$fragment"; 
     } 
 
-} // class SVNPage
+} // class SVNArticle
 
 # =============================================================================
 # vim: set et sw=4 ts=4 :

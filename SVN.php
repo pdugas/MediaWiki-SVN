@@ -1,8 +1,8 @@
 <?php
 # =============================================================================
-# Subversion - MediaWiki Extension for Integration with Subversion
+# MediaWiki-SVN - MediaWiki Extension for Integration with Subversion
 # =============================================================================
-# @file     Subversion.php
+# @file     SVN.php
 # @brief    Setup for the extension
 # @author   Paul Dugas <paul@dugasenterprises.com>
 # =============================================================================
@@ -24,11 +24,12 @@ $wgNamespaceProtection[NS_SVN_TALK] = array('editsvn');
 
 $wgExtensionCredits['parserhook'][] = array(
     'path'          => __FILE__,
-    'name'          => 'Subversion',
+    'name'          => 'SVN',
     'author'        => array('[mailto:paul@dugas.cc Paul Dugas]'),
     'url'           => 'https://github.com/pdugas/MediaWiki-Subversion',
-    'description'   => 'Adds <nowiki><svn/> tag and {{#svn}}</nowiki> '.
-                       ' parser function for integration with Subversion.',
+    'description'   => 'Adds the <nowiki><svn/></nowiki> tag, the '.
+                       '<nowiki>{{#svn}}</nowiki>  parser function, and pages '.
+                       'in the SVN namespace for integration with Subversion.',
     'version'       => 0.1,
     'license-name'  => 'GPL',
 );
@@ -37,9 +38,9 @@ $dir = dirname(__FILE__);
 $inc = $dir.'/include';
 
 $wgAutoloadClasses['SVNHooks'] = $inc.'/SVNHooks.php';
-$wgAutoloadClasses['SVNPage'] = $inc.'/SVNPage.php';
+$wgAutoloadClasses['SVNArticle'] = $inc.'/SVNArticle.php';
 
-$wgExtensionMessagesFiles['Subversion'] = $dir.'/Subversion.i18n.php';
+$wgExtensionMessagesFiles['SVN'] = $dir.'/SVN.i18n.php';
 
 $wgHooks['ArticleFromTitle'][] = 'SVNHooks::onArticleFromTitle';
 $wgHooks['ParserFirstCallInit'][] = 'SVNHooks::onFirstCallInit';
