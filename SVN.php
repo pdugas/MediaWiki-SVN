@@ -43,6 +43,12 @@ $wgAutoloadClasses['SVNArticle'] = $inc.'/SVNArticle.php';
 
 $wgExtensionMessagesFiles['SVN'] = $dir.'/SVN.i18n.php';
 
+$wgResourceModules['ext.SVN'] = array(
+  'styles' => 'resources/ext.SVN.css',
+  'localBasePath' => __DIR__,
+  'remoteExtPath' => 'MediaWiki-SVN'
+);
+
 $wgHooks['ArticleFromTitle'][] = 'SVNHooks::onArticleFromTitle';
 $wgHooks['ParserFirstCallInit'][] = 'SVNHooks::onFirstCallInit';
 $wgHooks['LinkBegin'][] = 'SVNHooks::onLinkBegin';

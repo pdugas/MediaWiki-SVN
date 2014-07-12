@@ -43,6 +43,7 @@ class SVNHooks
       if (!$info) { return $url; }
 
       if ($info['type'] == 'dir') {
+        $parser->getOutput()->addModules('ext.SVN');
         $ret = "{| class=\"wikitable\" width=\"100%\"\n".
                "! Path\n".
                "! Rev\n".
@@ -50,20 +51,27 @@ class SVNHooks
                "! Size\n".
                "! Timestamp\n".
                "|-\n".
-               "|[[{$wgExtraNamespaces[NS_SVN]}:$url|.]]\n".
+               "|[[{$wgExtraNamespaces[NS_SVN]}:$url|".
+                 "<span class=\"mw-SVN-folder\">.</span>]]\n".
                "|style=\"text-align:center;\"|{$info['created_rev']}\n".
                "|style=\"text-align:center;\"|{$info['last_author']}\n".
                "|style=\"text-align:right;\"|{$info['size']}\n".
-               "|style=\"text-align:center;\"|{$info['time']}\n".
-               "|-\n".
-               "|[[{$wgExtraNamespaces[NS_SVN]}:$parent|..]]\n".
-               "|style=\"text-align:center;\"|{$dotdot['created_rev']}\n".
-               "|style=\"text-align:center;\"|{$dotdot['last_author']}\n".
-               "|style=\"text-align:right;\"|{$dotdot['size']}\n".
-               "|style=\"text-align:center;\"|{$dotdot['time']}\n";
+               "|style=\"text-align:center;\"|{$info['time']}\n";
+        if ($dotdot) {
+          $ret .= "|-\n".
+                  "|[[{$wgExtraNamespaces[NS_SVN]}:$parent|".
+                     "<span class=\"mw-SVN-folder\">..</span>]]\n".
+                  "|style=\"text-align:center;\"|{$dotdot['created_rev']}\n".
+                  "|style=\"text-align:center;\"|{$dotdot['last_author']}\n".
+                  "|style=\"text-align:right;\"|{$dotdot['size']}\n".
+                  "|style=\"text-align:center;\"|{$dotdot['time']}\n";
+        }
         foreach (svn_ls($url, $rev) as $ls) {
           $ret .= "|-\n".
-                  "|[[{$wgExtraNamespaces[NS_SVN]}:$url/{$ls['name']}|{$ls['name']}]]\n".
+                  "|[[{$wgExtraNamespaces[NS_SVN]}:$url/{$ls['name']}".
+                    "|<span class=\"mw-SVN-".
+                    ($ls['type']=='dir'?'folder':'file')."\">".
+                    "{$ls['name']}</span>]]\n".
                   "|style=\"text-align:center;\"|{$ls['created_rev']}\n".
                   "|style=\"text-align:center;\"|{$ls['last_author']}\n".
                   "|style=\"text-align:right;\"|{$ls['size']}\n".
