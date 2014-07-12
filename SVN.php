@@ -4,7 +4,7 @@
 # =============================================================================
 # @file     SVN.php
 # @brief    Setup for the extension
-# @author   Paul Dugas <paul@dugasenterprises.com>
+# @author   Paul Dugas <paul@dugas.cc>
 # =============================================================================
  
 if (!defined('MEDIAWIKI')) {
@@ -19,7 +19,7 @@ $wgExtraNamespaces[NS_SVN] = "SVN";
 $wgExtraNamespaces[NS_SVN_TALK] = "SVN_talk";
 $wgNamespaceProtection[NS_SVN] = array('editsvn');
 $wgNamespaceProtection[NS_SVN_TALK] = array('editsvn');
-//$wgGroupPermissions['sysop']['editsvn'] = true; // no edits
+//$wgGroupPermissions['sysop']['editsvn'] = true; / no edits
 
 
 $wgExtensionCredits['parserhook'][] = array(
@@ -28,8 +28,9 @@ $wgExtensionCredits['parserhook'][] = array(
     'author'        => array('[mailto:paul@dugas.cc Paul Dugas]'),
     'url'           => 'https://github.com/pdugas/MediaWiki-Subversion',
     'description'   => 'Adds the <nowiki><svn/></nowiki> tag, the '.
-                       '<nowiki>{{#svn}}</nowiki>  parser function, and pages '.
-                       'in the SVN namespace for integration with Subversion.',
+                       '<nowiki>{{#svn}}</nowiki> parser function, and pages '.
+                       'in the SVN namespace for integration with '.
+                       '[http://subversion.apache.org/ Subversion].',
     'version'       => 0.1,
     'license-name'  => 'GPL',
 );

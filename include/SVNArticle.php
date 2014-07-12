@@ -5,7 +5,7 @@
 # =============================================================================
 # @file     includes/SVNArticle.php
 # @brief    Article class for the SVN extension
-# @author   Paul Dugas <paul@dugasenterprises.com>
+# @author   Paul Dugas <paul@dugas.cc>
 # =============================================================================
 
 class SVNArticle extends Article

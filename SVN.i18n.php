@@ -4,7 +4,7 @@
 # =============================================================================
 # @file     SVN.i18n.php
 # @brief    Internationalization for the extension
-# @author   Paul Dugas <paul@dugasenterprises.com>
+# @author   Paul Dugas <paul@dugas.cc>
 # =============================================================================
  
 if (!defined('MEDIAWIKI')) {

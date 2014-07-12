@@ -5,7 +5,7 @@
 # =============================================================================
 # @file     includes/SVNHook.php
 # @brief    Hooks for the SVN extension
-# @author   Paul Dugas <paul@dugasenterprises.com>
+# @author   Paul Dugas <paul@dugas.cc>
 # =============================================================================
 
 class SVNHooks
