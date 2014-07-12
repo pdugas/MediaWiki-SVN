@@ -17,7 +17,8 @@ like the one below to the bottom of your `LocalSettings.php` file.
 
 #### Directory Listing
 
-Use the `<svn>URL</svn>` tag to insert a tabular list of directory entries in/under a given Subversion URL.  
+Use the `<svn>URL</svn>` tag or `{{#svn:URL}}` parser function to insert a tabular 
+list of directory entries in/under a given Subversion URL.  
 
 > &lt;svn&gt;https://github.com/pdugas/MediaWiki-SVN/trunk&lt;/svn&gt;
 
