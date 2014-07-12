@@ -1,0 +1,12 @@
+.mw-SVN-folder {
+  /* @embed */
+  background-image: url('folder.png');
+  background-repeat: no-repeat;
+  padding-left: 18px;
+}
+.mw-SVN-file {
+  /* @embed */
+  background-image: url('page.png');
+  background-repeat: no-repeat;
+  padding-left: 18px;
+}
