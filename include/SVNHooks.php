@@ -21,15 +21,16 @@ class SVNHooks
   public static function onArticleFromTitle($title, &$article) 
     {
       if ($title->getNamespace() == NS_SVN) 
-        { $article = new SVNPage($title); }
+        { $article = new SVNArticle($title); }
       return true;
     }
 
-  public static function onFunc(Parser $parser, $input=null)
+  public static function onFunc(Parser $parser, $url=null, $rev=null)
     {
+      global $wgExtraNamespaces;
       $parser->disableCache();
 
-      if (empty($input)) { error_log('missing PATH'); return '(missing PATH)'; }
+      if (empty($url)) { error_log('missing URL'); return '(missing URL)'; }
 
       #svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_USERNAME, '');
       #svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_PASSWORD, '');
@@ -37,14 +38,41 @@ class SVNHooks
       svn_auth_set_parameter(SVN_AUTH_PARAM_NON_INTERACTIVE, true);
       svn_auth_set_parameter(SVN_AUTH_PARAM_NO_AUTH_CACHE, true);
 
-      $ret = "{| class=\"wikitable\" width=\"100%\"\n".
-             "! Path\n".
-             "! Rev\n".
-             "! Author\n".
-             "! Size\n".
-             "! Timestamp\n";
-      self::_tableRow($input, $ret);
-      $ret .= "|}\n";
+      $info = self::svn_info($url, $rev, $parent);
+      $dotdot = self::svn_info($parent, $rev);
+      if (!$info) { return $url; }
+
+      if ($info['type'] == 'dir') {
+        $ret = "{| class=\"wikitable\" width=\"100%\"\n".
+               "! Path\n".
+               "! Rev\n".
+               "! Author\n".
+               "! Size\n".
+               "! Timestamp\n".
+               "|-\n".
+               "|[[{$wgExtraNamespaces[NS_SVN]}:$url|.]]\n".
+               "|style=\"text-align:center;\"|{$info['created_rev']}\n".
+               "|style=\"text-align:center;\"|{$info['last_author']}\n".
+               "|style=\"text-align:right;\"|{$info['size']}\n".
+               "|style=\"text-align:center;\"|{$info['time']}\n".
+               "|-\n".
+               "|[[{$wgExtraNamespaces[NS_SVN]}:$parent|..]]\n".
+               "|style=\"text-align:center;\"|{$dotdot['created_rev']}\n".
+               "|style=\"text-align:center;\"|{$dotdot['last_author']}\n".
+               "|style=\"text-align:right;\"|{$dotdot['size']}\n".
+               "|style=\"text-align:center;\"|{$dotdot['time']}\n";
+        foreach (svn_ls($url, $rev) as $ls) {
+          $ret .= "|-\n".
+                  "|[[{$wgExtraNamespaces[NS_SVN]}:$url/{$ls['name']}|{$ls['name']}]]\n".
+                  "|style=\"text-align:center;\"|{$ls['created_rev']}\n".
+                  "|style=\"text-align:center;\"|{$ls['last_author']}\n".
+                  "|style=\"text-align:right;\"|{$ls['size']}\n".
+                  "|style=\"text-align:center;\"|{$ls['time']}\n";
+        }
+        $ret .= "|}\n";
+      } else {
+        $ret = "(file block for $url goes here...)";
+      }
 
       return $ret;
     }
@@ -52,34 +80,45 @@ class SVNHooks
   public static function onTag($input, array $args, 
                                Parser $parser, PPFrame $frame)
     {
-      return $parser->recursiveTagParse(self::onFunc($parser, $input));
+      $rev = array_key_exists('rev', $args) ? $args['rev'] : NULL;
+      return $parser->recursiveTagParse(self::onFunc($parser, $input, $rev));
     }
 
   public static function onLinkBegin($dummy, $target, &$html, &$customAttribs,
                                      &$query, &$options, &$ret) 
     {
       if ($target->getNamespace() == NS_SVN) {
-        $options[] = 'known';
-        $options[] = 'noclasses';
+        if (self::svn_info($target->getPartialURL())) {
+          $options[] = 'known';
+          $options[] = 'noclasses';
+        }
       }
       return true;
     }
 
-  private static function _tableRow($path, &$out, $maxDepth=-1, $depth=0)
+  public static function svn_info($title, $rev=null, &$parent=null)
     {
-      global $wgExtraNamespaces;
-      foreach (svn_ls($path) as $ls) {
-        $out .= "|-\n".
-                "|".str_repeat('&nbsp;', $depth*2).
-                  "[[{$wgExtraNamespaces[NS_SVN]}:$path/{$ls['name']}|{$ls['name']}]]\n".
-                "|style=\"text-align:center;\"|{$ls['created_rev']}\n".
-                "|style=\"text-align:center;\"|{$ls['last_author']}\n".
-                "|style=\"text-align:right;\"|{$ls['size']}\n".
-                "|style=\"text-align:center;\"|{$ls['time']}\n";
-        if ($ls['type'] == 'dir') { 
-          self::_tableRow("$path/{$ls['name']}", $out , $maxDepth, $depth+1);
-        }
-      }
+      $url = parse_url($title);
+      if ($url === FALSE) { return NULL; }
+      $file = basename($url['path']);
+      $parent = $url; $parent['path'] = dirname($url['path']);
+      $parent = self::unparse_url($parent);
+      $ls = svn_ls($parent); 
+      return (array_key_exists($file, $ls) ? $ls[$file] : NULL);
+    }
+
+  public static function unparse_url($parsed_url)
+    {
+      $scheme   = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : '';
+      $host     = isset($parsed_url['host']) ? $parsed_url['host'] : '';
+      $port     = isset($parsed_url['port']) ? ':' . $parsed_url['port'] : '';
+      $user     = isset($parsed_url['user']) ? $parsed_url['user'] : '';
+      $pass     = isset($parsed_url['pass']) ? ':' . $parsed_url['pass']  : '';
+      $pass     = ($user || $pass) ? "$pass@" : '';
+      $path     = isset($parsed_url['path']) ? $parsed_url['path'] : '';
+      $query    = isset($parsed_url['query']) ? '?' . $parsed_url['query'] : ''; 
+      $fragment = isset($parsed_url['fragment']) ? '#' . $parsed_url['fragment'] : '';
+      return "$scheme$user$pass$host$port$path$query$fragment";
     }
 
 } // class SVNHooks
