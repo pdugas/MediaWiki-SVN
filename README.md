@@ -50,7 +50,6 @@ The links in the `Path` column lead to File Browser pages provided by this exten
 The extension adds an `SVN` namespace that can be used to browse a Subversion repository.  Article links like `[[SVN:URL]]` present results for the given Subversion URL.  If the URL leads to a directory, the link produces a dynamically generated article containing a directory listing.  If the URL leads to a file, the file is downloaded.
 
 ### TODO LIST
-* Add . and .. to the directory listing.
 * Only publicly accessible repositories accessed via HTTP/HTTPS are currently supported.  Not sure if we want to change that due to potential security risks.
 * An error is thrown in the PHP/Apache log when generating a directory listing where the parent directory is the top of the repository.  Want to see if we can head that off some how.
 
