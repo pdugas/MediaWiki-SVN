@@ -20,8 +20,7 @@ class SVNHooks
 
   public static function onArticleFromTitle($title, &$article) 
     {
-      if ($title->getNamespace() == NS_SVN) 
-        { $article = new SVNArticle($title); }
+      $article = SVNArticle::make($title);
       return true;
     }
 
@@ -51,7 +50,7 @@ class SVNHooks
                "! Size\n".
                "! Timestamp\n".
                "|-\n".
-               "|[[{$wgExtraNamespaces[NS_SVN]}:$url|".
+               "|[[{$wgExtraNamespaces[NS_SVN]}:ls?URL=$url|".
                  "<span class=\"mw-SVN-folder\">.</span>]]\n".
                "|style=\"text-align:center;\"|{$info['created_rev']}\n".
                "|style=\"text-align:center;\"|{$info['last_author']}\n".
@@ -59,7 +58,7 @@ class SVNHooks
                "|style=\"text-align:center;\"|{$info['time']}\n";
         if ($dotdot) {
           $ret .= "|-\n".
-                  "|[[{$wgExtraNamespaces[NS_SVN]}:$parent|".
+                  "|[[{$wgExtraNamespaces[NS_SVN]}:ls?URL=$parent|".
                      "<span class=\"mw-SVN-folder\">..</span>]]\n".
                   "|style=\"text-align:center;\"|{$dotdot['created_rev']}\n".
                   "|style=\"text-align:center;\"|{$dotdot['last_author']}\n".
@@ -67,12 +66,16 @@ class SVNHooks
                   "|style=\"text-align:center;\"|{$dotdot['time']}\n";
         }
         foreach (svn_ls($url, $rev) as $ls) {
-          $ret .= "|-\n".
-                  "|[[{$wgExtraNamespaces[NS_SVN]}:$url/{$ls['name']}".
-                    "|<span class=\"mw-SVN-".
-                    ($ls['type']=='dir'?'folder':'file')."\">".
-                    "{$ls['name']}</span>]]\n".
-                  "|style=\"text-align:center;\"|{$ls['created_rev']}\n".
+          if ($ls['type']=='dir') {
+            $ret .= "|-\n".
+                    "|[[{$wgExtraNamespaces[NS_SVN]}:ls?URL={{urlencode:$url/{$ls['name']}}}".
+                      "|<span class=\"mw-SVN-folder\">{$ls['name']}</span>]]\n";
+          } else {
+            $ret .= "|-\n".
+                    "|[[{$wgExtraNamespaces[NS_SVN]}:get?URL={{urlencode:$url/{$ls['name']}}}".
+                      "|<span class=\"mw-SVN-file\">{$ls['name']}</span>]]\n";
+          }
+          $ret .= "|style=\"text-align:center;\"|{$ls['created_rev']}\n".
                   "|style=\"text-align:center;\"|{$ls['last_author']}\n".
                   "|style=\"text-align:right;\"|{$ls['size']}\n".
                   "|style=\"text-align:center;\"|{$ls['time']}\n";
@@ -96,10 +99,10 @@ class SVNHooks
                                      &$query, &$options, &$ret) 
     {
       if ($target->getNamespace() == NS_SVN) {
-        if (self::svn_info($target->getPartialURL())) {
+        #if (self::svn_info($target->getPartialURL())) {
           $options[] = 'known';
           $options[] = 'noclasses';
-        }
+        #}
       }
       return true;
     }

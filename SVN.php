@@ -40,6 +40,8 @@ $inc = $dir.'/include';
 
 $wgAutoloadClasses['SVNHooks'] = $inc.'/SVNHooks.php';
 $wgAutoloadClasses['SVNArticle'] = $inc.'/SVNArticle.php';
+$wgAutoloadClasses['SVNArticleLs'] = $inc.'/SVNArticleLs.php';
+$wgAutoloadClasses['SVNArticleGet'] = $inc.'/SVNArticleGet.php';
 
 $wgExtensionMessagesFiles['SVN'] = $dir.'/SVN.i18n.php';
 
